@@ -1,0 +1,64 @@
+{% extends 'base1.html '%}
+
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+{% include 'accounts/deleteUser.html' %}
+
+        
+
+
+
+
+
+
+
+
+{% for msg in messages %}
+<div class="alert alert-success" role="alert">
+    {{msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+   
+
+{% endfor %}
+
+<h2 class="text-center">Customer List  <a href="addUser" class="btn btn-dark">Add User</a></h2>
+
+<table class="table table-bordered">
+    <tr class="bg-dark text-white" >
+        <td>ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Email</td>
+        <td>Joined Date</td>
+        <td>Action</td>
+        
+        
+    </tr>
+
+    {% for rec in UserData %}
+
+    <tr>
+        <td>{{rec.id}}</td>
+        <td>{{rec.first_name}}</td>
+        <td>{{rec.last_name}}</td>
+        <td>{{rec.email}}</td>
+        <td>{{rec.joining_date}}</td>
+        <td><a class="btn btn-primary" href="viewUser{{rec.id}}">view</a> ---- <a href="deleteUser{{rec.id}}" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete</a></td>
+       
+    </tr>
+
+
+    {% endfor %}
+</table>
+
+{% endblock %}

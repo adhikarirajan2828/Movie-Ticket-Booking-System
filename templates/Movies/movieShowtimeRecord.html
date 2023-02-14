@@ -1,0 +1,34 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Showtime List<a href="addMovieShowtime" class="btn btn-dark">Add Movie Showtime</a></h2>
+
+<table class="table table-bordered">
+    <tr class="bg-dark text-white" >
+        <td>ID</td>
+        <td>Showtime</td>
+        <td>Action</td>
+        
+        
+        
+    </tr>
+
+    {% for rec in showtimeData %}
+
+    <tr>
+        <td>{{rec.id}}</td>
+        <td>{{rec.showtime_name}}</td>
+        <td><a href="">view</a> / <a href="">Delete</a></td>
+       
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+
+
+
+
+{% endblock %}

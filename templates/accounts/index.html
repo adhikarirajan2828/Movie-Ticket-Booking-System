@@ -1,0 +1,72 @@
+{% extends 'templates/base.html' %}
+
+{% block content %}
+
+
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="static/img/slider1.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="static/img/slider2.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="...">
+          </div> 
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <h2 class="text-center mt-5"> Running Shows </h2>
+
+      <div class = "container-fluid mt-5 mb-5">
+        <div class = "container">
+          <div class="row">
+            {% for movies in movieData %}
+            <div class = "col-lg-3 col-md-6">
+              <div class = "card">
+                <img src= "/media/{{movies.movie_img}}" class="img-fluid">
+                <div class="card-body">
+                  <h5 class="card-title">{{movies.movie_title}}</h5>
+                  <p class="card-text">{{movies.movie_cast}}</p>
+                  <a href="#" class="btn btn-primary">Buy Tickets</a>
+                  <a href="#" class="btn btn-primary">Play Trailer</a>
+
+                </div>
+
+              </div>
+
+            </div>
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      
+ 
+      {% endblock %}
+      
+       
+       
+      
+
+
+      
+
+    
+      

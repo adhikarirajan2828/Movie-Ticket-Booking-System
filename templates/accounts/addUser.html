@@ -1,0 +1,24 @@
+{% extends 'base1.html'%}
+
+{% block content %}
+
+<div class="w-50 m-auto p-2">
+
+
+
+<h1> Add User </h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button type="submit" class="btn btn-dark w-100">Add</button>
+
+
+</form>
+</div>
+
+
+{% endblock %}
+
+

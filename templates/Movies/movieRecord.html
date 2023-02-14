@@ -1,0 +1,42 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Movies List <a href="addMovie" class="btn btn-dark">Add Movie</a></h2>
+
+<table class="table table-bordered">
+    <tr class="bg-dark text-white" >
+        <td>ID</td>
+        <td>Movie Name</td>
+        <td>Movie Image</td>
+        <td>Casts</td>
+        <td>Director</td>
+        <td>Releasing Date</td>
+        <td>Action</td>
+        
+        
+        
+    </tr>
+
+    {% for rec in movieData %}
+
+    <tr>
+        <td>{{rec.id}}</td>
+        <td>{{rec.movie_title}}</td>
+        <td><img src="/media/{{rec.movie_img}}" width="80px"></td>
+        <td>{{rec.movie_cast}}</td>
+        <td>{{rec.movie_director}}</td>
+        <td>{{rec.release_date}}</td>
+        <td><a href="viewUser{{rec.id}}">view</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
+       
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+
+
+
+
+{% endblock %}

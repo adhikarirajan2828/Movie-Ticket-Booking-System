@@ -1,0 +1,58 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!--Bootstrap-->
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!--CSS file-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+
+
+
+<link rel="stylesheet" href={% static 'css/authentication.css'%}>
+</head>
+<body>
+    {% load crispy_forms_tags %}  
+
+    <div class="container">
+        <form class="signup"  method="post" action="/signin">
+            {% csrf_token %}
+            <h2>LOGIN</h2>
+            <hr class="my-6">
+          
+
+            <div class="form-group ">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{form.email|as_crispy_field}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {{form.password|as_crispy_field}}
+                    </div>
+                </div>
+            </div>
+
+         <br>
+            
+
+            <input type="submit" class="btn btn-success w-100" name="signup" value="LOGIN">
+            <hr class="my-1">
+
+            <div class="text-center mb-2">Don't have an account?
+                <a href="register" class="registartion-link"> Register here.</a>
+            </div>
+        </form>
+    
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+body{
+    padding-top: 80px;
+    background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.7))fixed,url("/static/img/cinema5.jpg");
+    background-size: cover;
+    background-blend-mode: darken;
+}
+
+.signup{
+    margin: 0 auto;
+    max-width:500px;
+    background-color: white;
+    padding: 15px;
+}
+.signup h2{
+    text-align: center;
+}
+/* .form-group label{
+    padding-top: 5px;
+} */
+
+form .btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* h4{
+    display: flex;
+    flex-direction: row;
+}
+h4:before, h4:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 2px solid #000;
+    margin: auto;
+    text-align: center;
+} */

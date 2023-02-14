@@ -1,0 +1,37 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Certificate List<a href="addMovieCertificate" class="btn btn-dark">Add Movie Certificate</a></h2>
+
+<table class="table table-bordered">
+    <tr class="bg-dark text-white" >
+        <td>ID</td>
+        <td>Certificate Name</td>
+        <td>Certificate Description</td>
+        <td>Action</td>
+        
+        
+        
+    </tr>
+
+    {% for rec in certificateData %}
+
+    <tr>
+        <td>{{rec.id}}</td>
+        <td>{{rec.certificate_name}}</td>
+        <td>{{rec.certificate_des}}</td>
+       
+        <td><a href="viewUser{{rec.id}}">view</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
+       
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+
+
+
+
+{% endblock %}
