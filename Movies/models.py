@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from datetime import datetime
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -43,7 +44,7 @@ class Movies(models.Model):
     movie_type=models.ForeignKey(movieType, on_delete=models.CASCADE,blank=True, null=True)
     movie_certificate=models.ForeignKey(movieCertificate,on_delete=models.CASCADE, blank=True, null=True)
     movie_showtime=models.ForeignKey(movieShowtime,on_delete=models.CASCADE,blank=True, null=True)
-    movie_trailer=models.CharField(max_length=200,blank=True, null=True)
+    movie_trailer=EmbedVideoField()
     movie_price=models.CharField(max_length=50,blank=True, null=True)
     movie_des=models.TextField(max_length=250,blank=True, null=True)
     

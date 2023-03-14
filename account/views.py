@@ -60,7 +60,22 @@ def deleteUser(request, id=None):
         return redirect("UserRecord")
     return render(request,'accounts/deleteUser.html',data)
         
+def movieDetails(request,id=None):
+    movieData = Movies.objects.get(pk=id)
+    movieRec = {
+        'movieData':movieData
+    }
     
+    return render(request,'Movies/movieDetails.html',movieRec)
+
+def viewTrailer(request,id=None):
+    movieData = Movies.objects.get(pk=id)
+    movieRec = {
+        'movieData':movieData
+    }
+    
+    return render(request,'Movies/viewTrailer.html',movieRec)
+        
 
    
    
@@ -69,8 +84,6 @@ def deleteUser(request, id=None):
 
     
     
-    
-
 def movieRecord(request):
     movieData = Movies.objects.all()
     movieRec = {
@@ -162,6 +175,9 @@ def addMovieShowtime(request):
     else:
         form = AddMovieShowtime()
     return render(request,'Movies/addMovieShowtime.html',{'form':form})
+
+def seatView(request):
+    return render(request,'Movies/seatView.html')
 
     
 # Create your views here.

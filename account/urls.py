@@ -29,7 +29,10 @@ urlpatterns = [
     path('UserRecord',views.UserRecord,name='UserRecord'),
     path('addUser',views.addUser,name='addUser'),
     path('viewUser<id>',views.viewUser,name='viewUser'),
-    path('deleteUser<id>',views.deleteUser,name='deleteUser')
+    path('deleteUser<id>',views.deleteUser,name='deleteUser'),
+    path('movieDetails<id>',views.movieDetails,name='movieDetails'),
+    path('viewTrailer<id>',views.viewTrailer,name='viewTrailer'),
+    path('seatView',views.seatView,name='seatView')
 
 ]
 if settings.DEBUG:
