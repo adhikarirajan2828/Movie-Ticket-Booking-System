@@ -14,7 +14,7 @@ class AddMovieForm(forms.ModelForm):
         # input_formats=('%Y-%m-%d')
     )
     
-    movie_showtime=forms.MultipleChoiceField(choices=[(item.pk, item) for item in movieShowtime.objects.all()], widget=forms.CheckboxSelectMultiple)
+    # movie_showtime=forms.MultipleChoiceField(choices=[(item.pk, item) for item in movieShowtime.objects.all()], widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Movies
         fields = "__all__"
