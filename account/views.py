@@ -182,8 +182,14 @@ def seatView(request):
     
 # Create your views here.
 def home(request):
+    first_name = ""
+    userId = request.session.get('userId', None)
+    if userId is not None:
+        user = MyUser.objects.get(id=userId)
+        first_name = user.first_name
     movieData = Movies.objects.all()
     data = {
+        "first_name": first_name,
         'movieData': movieData
     }
     return render(request, "accounts/index.html",data)
@@ -206,21 +212,30 @@ def signin(request):
     if request.method=="POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            
+
             user = authenticate(
                 email = form.cleaned_data['email'],
                 password = form.cleaned_data['password'] 
             )
             print(user)
-            
-            
+
+
             if user:
                 login (request,user,backend='django.contrib.auth.backends.ModelBackend')
-                return redirect('home')
+                userId= MyUser.objects.get(email=form.cleaned_data['email']).id
+                request.session['userId'] = userId
+                user = MyUser.objects.get(id=userId)
+                movieData = Movies.objects.all()
+                data = {
+                    "first_name": user.first_name,
+                    "user":user,
+                    'movieData': movieData
+                }
+                return render(request, 'accounts/index.html', data)
             else:
                 print("Bad credentials.")
     form = LoginForm() 
-   
+
     return render(request, "accounts/login.html",{'form':form})
 
 def signout(request):
@@ -228,5 +243,15 @@ def signout(request):
     messages.success(request, "Logout successfully!!")
     return redirect('home')
     
+def adminDashboard(request):
+    userId = request.session.get('userId', None)
+    if userId is not None:
+        user = MyUser.objects.get(id=userId)
+        if user.is_superuser:
+            return render(request, 'accounts/dashboard.html')
+        else:
+            return HttpResponse("Access Denied!!")
+    else:
+        return HttpResponse("Access Denied!!")
     
     
