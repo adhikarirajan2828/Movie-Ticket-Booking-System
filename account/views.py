@@ -13,15 +13,7 @@ from Movies.forms import AddMovieForm, AddMovieCertificate, AddMovieType, AddMov
 
 
 
-def dashboard(request):
-    UserCount = MyUser.objects.all().count()
-    movieCount = Movies.objects.all().count()
-    userRec = {
-        'UserCount':UserCount,
-        'movieCount':movieCount
-    }
-    
-    return render(request,'accounts/dashboard.html',userRec)
+
 
 def UserRecord(request):
     UserData = MyUser.objects.all()
@@ -244,11 +236,17 @@ def signout(request):
     return redirect('home')
     
 def adminDashboard(request):
+    UserCount = MyUser.objects.all().count()
+    movieCount = Movies.objects.all().count()
+    userRec = {
+        'UserCount':UserCount,
+        'movieCount':movieCount
+    }
     userId = request.session.get('userId', None)
     if userId is not None:
         user = MyUser.objects.get(id=userId)
         if user.is_superuser:
-            return render(request, 'accounts/dashboard.html')
+            return render(request, 'accounts/dashboard.html',userRec)
         else:
             return HttpResponse("Access Denied!!")
     else:

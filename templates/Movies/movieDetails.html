@@ -1,7 +1,5 @@
-{% extends 'templates/base.html' %}
-
-
-{% block content %}
+{% extends 'templates/base.html' %} {% block content %} {% load static %}
+    <script defer  src={% static 'js/movie_details.js' %}></script>
 
 <div class="w-50 m-auto p-4">
     <h3 class="text-center">Details of Movie : {{movieData.movie_title}}</h3><hr>
@@ -54,12 +52,12 @@
 
     <tr>
         <th>Select Date and Time</th>
-        <td><input type="date"></td>
+        <td><input type="date" id="movieDate"></td>
     </tr>
 
     <tr>
         <th></th>
-        <td><a class="btn btn-primary" href="seatView">Book Tickets</a></td>
+        <td><a class="btn btn-primary" id="BookTicket" onclick="BookTicketfunc()" href="/seatView">Book Tickets</a></td>
     </tr>
 
     
