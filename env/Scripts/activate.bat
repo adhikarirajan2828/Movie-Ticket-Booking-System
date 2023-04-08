@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
+set VIRTUAL_ENV=C:\Users\abish\OneDrive\Desktop\Movie_ticket-main\env
+=======
 set VIRTUAL_ENV=C:\Users\user\Desktop\Movie Ticket Booking System\env
+>>>>>>> 7485caa442a6ffe3793b89cc5c7fe5898d6897ec
 
 if not defined PROMPT set PROMPT=$P$G
 

@@ -1,8 +1,9 @@
 {% extends 'templates/base.html' %}
+{% csrf_token %}
 
-{% block content %}
+{% block content %}{% load static %}
 
-
+<script defer src={% static 'js/index.js' %}></script>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -42,7 +43,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{movies.movie_title}}</h5>
                   <p class="card-text">{{movies.movie_cast}}</p>
-                  <a href="movieDetails{{movies.id}}" class="btn btn-primary">Buy Tickets</a>
+                  <a href="movieDetails{{movies.id}}" class="btn btn-primary buyTicket">Buy Tickets</a>
                   <a href="viewTrailer{{movies.id}}" class="btn btn-primary">Play Trailer</a>
 
                 </div>

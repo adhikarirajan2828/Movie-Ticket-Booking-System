@@ -2,12 +2,12 @@ const movieDate = document.getElementById("movieDate");
 const bookTicket = document.getElementById("BookTicket");
 
 let date;
-console.log(movieDate);
+// console.log(movieDate);
 movieDate.addEventListener("change", () => {
   console.log(movieDate);
   date = movieDate.value;
   let currentDate = new Date().toJSON().slice(0, 10);
-  console.log(currentDate);
+  // console.log(currentDate);
   if (currentDate > date) {
     alert("invalid movie date");
   }
