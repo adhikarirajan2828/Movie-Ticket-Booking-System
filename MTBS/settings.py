@@ -160,3 +160,13 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+### email settings for email verification
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = "razanmandal2018@gmail.com"
+EMAIL_HOST_PASSWORD = "rnesskxgiunfsfzm"
+EMAIL_TIMEOUT = 30

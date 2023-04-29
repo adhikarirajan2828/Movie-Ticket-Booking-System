@@ -2,19 +2,19 @@ window.onload = async () => {
   const { data } = await axios.get(
     "http://localhost:8000/movies/reservedseats"
   );
-  console.log("here is reserved");
-  console.log(typeof data.reserved_seats);
+  // console.log("here is reserved");
+  // console.log(typeof data.reserved_seats);
   bookedSeatNum = data.reserved_seats.split(" ");
-  console.log(bookedSeatNum);
+  // console.log(bookedSeatNum);
   ReservedSeat.forEach((e, index) => {
     // console.log(e)
     let seatReserved = e.getAttribute("data-value");
-    console.log(seatReserved);
+    // console.log(seatReserved);
 
     if (bookedSeatNum.includes(seatReserved)) {
       e.classList.remove("selected");
       e.classList.add("reserved");
-      console.log("booked");
+      // console.log("booked");
     }
   });
 
@@ -45,7 +45,7 @@ let seatNumber;
 seats.forEach((e) => {
   e.addEventListener("click", (event) => {
     if (!e.classList.contains("reserved")) {
-      console.log(e);
+      // console.log(e);
       e.classList.toggle("selected");
       seatNumber = e.getAttribute("data-value");
 
@@ -58,13 +58,6 @@ seats.forEach((e) => {
     }
   });
 });
-
-// movie.addEventListener("change", (e) => {
-//   console.log("changed");
-//   console.log(movie.value);
-//   movieName = movie.value;
-//   console.log(movieName);
-// });
 
 const postSeat = async () => {
   let config = {
@@ -83,14 +76,20 @@ const postSeat = async () => {
     eventHandler: {
       async onSuccess(payload) {
         // hit merchant api for initiating verfication
-        const { data } = await axios.post("http://localhost:8000/movies/ticket", {
-          // movieName,
-          totalPrice,
-          ticketPrice,
-          // totalSeatCount,
-          seatSelectedNumber,
-        });
-        console.log(payload);
+        const response = await axios.post(
+          "http://localhost:8000/movies/ticket",
+          {
+            // movieName,
+            totalPrice,
+            ticketPrice,
+            // totalSeatCount,
+            seatSelectedNumber,
+          }
+        );
+        if(response.status === 200) {
+          // console.log('hlsdhfl')
+          window.location.href = 'http://localhost:8000/mytickets';
+        }
       },
       onError(error) {
         console.log(error);
@@ -106,13 +105,23 @@ const postSeat = async () => {
   console.log("checkout");
   console.log(checkout);
   checkout.show({ amount: totalPrice * 100 });
-  // const { data } = await axios.post("http://localhost:8000/movies/ticket", {
-  //   // movieName,
-  //   totalPrice,
-  //   ticketPrice,
-  //   // totalSeatCount,
-  //   seatSelectedNumber,
-  // });
 
-  console.log(data);
+
+ 
+  console.log(response);
 };
+
+const loyaltyTicket = async() => {
+  const response  = await axios.post("http://localhost:8000/movies/buywithpoint", {
+    // movieName,
+    totalPrice,
+    ticketPrice,
+    // totalSeatCount,
+    seatSelectedNumber,
+  });
+  console.log(response);
+
+  if(response.status === 200) {
+    window.location.href = 'http://localhost:8000/mytickets';
+  }
+}

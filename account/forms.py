@@ -99,5 +99,11 @@ class LoginForm(forms.Form):
                 "Sorry, that login was invalid. Please try again.")
         return self.cleaned_data
   
-        
 
+  
+class OtpForm(forms.Form):
+    otp = forms.CharField(label="otp", widget=forms.TextInput())
+
+    def clean(self):
+        otp = self.cleaned_data.get('otp')
+        return self.cleaned_data

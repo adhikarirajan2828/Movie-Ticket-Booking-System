@@ -2,99 +2,79 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Registration</title>
     <!--Bootstrap-->
     <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!--CSS file-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--CSS file-->
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
 
-
-
-<link rel="stylesheet" href={% static 'css/authentication.css'%}>
-</head>
-<body>
-    {% load crispy_forms_tags %}   
-
-  
+    <link rel="stylesheet" href={% static 'css/authentication.css'%}>
+  </head>
+  <body>
+    {% load crispy_forms_tags %}
 
     <div class="container">
-        <form class="signup" method="post" action="/register">
-             {% csrf_token %}
-            <h2>SIGN UP</h2>
-            <hr class="my-0">
-            <div class="form-group">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form.first_name|as_crispy_field}} 
-                    
-                    </div>
+      <form class="signup" method="post" action="/register">
+        {% csrf_token %}
+        <h2>SIGN UP</h2>
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endfor %} {% endif %}
+        <hr class="my-0" />
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">{{form.first_name|as_crispy_field}}</div>
 
-                    
-                    <div class="col-md-6">
-                        
-                        {{form.last_name|as_crispy_field}} 
-                        
-                    </div>
-                </div>
-          
+            <div class="col-md-6">{{form.last_name|as_crispy_field}}</div>
+          </div>
 
-              
-                <div class='row'>
-                    <div class="col-md-12">
-                        
-                        {{form.email|as_crispy_field}} 
-                    </div>
-                </div>
+          <div class="row">
+            <div class="col-md-12">{{form.email|as_crispy_field}}</div>
+          </div>
 
-                
+          <div class="row">
+            <div class="col-md-12">{{form.password|as_crispy_field}}</div>
+          </div>
 
-                <div class='row'>
-                    <div class="col-md-12">
-                        
-                        {{form.password|as_crispy_field}} 
-                    </div>
-                </div>
-
-                
-
-                <div class='row'>
-                    <div class="col-md-12">
-                        
-                        {{form.confirm_password|as_crispy_field}} 
-                    </div>
-                </div>
-                
+          <div class="row">
+            <div class="col-md-12">
+              {{form.confirm_password|as_crispy_field}}
             </div>
+          </div>
+        </div>
 
-           
+        <br />
 
+        <div class="form-group">
+          <label class="Agree">
+            <input type="checkbox" />
+            I accept the <a href="#">Terms of use</a> &
+            <a href="">Privacy policy.</a>
+          </label>
+        </div>
 
-          
-            <br>
+        <input
+          type="submit"
+          class="btn btn-success w-100"
+          name="signup"
+          value="SIGN UP"
+        />
+        <hr class="my-0" />
 
-            <div class="form-group">
-                <label class="Agree">
-                    <input type="checkbox">
-                    I accept the <a href="#">Terms of use</a> & <a href="">Privacy policy.</a>
-                </label>
-            </div>
-            
-
-            <input type="submit" class="btn btn-success w-100" name="signup" value="SIGN UP">
-            <hr class="my-0">
-
-            <div class="text-center mb-2">Already have an account?
-                <a href="signin" class="login-link"> Login here.</a>
-            </div>
-        </form>
-    
-    </div> 
-</body>
-</html> 
+        <div class="text-center mb-2">
+          Already have an account?
+          <a href="signin" class="login-link"> Login here.</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

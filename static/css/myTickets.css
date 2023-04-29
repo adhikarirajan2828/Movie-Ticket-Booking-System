@@ -1,0 +1,23 @@
+.container{
+    /* background-color: black; */
+    /* height: 100vh; */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    border: 2px dotted grey;
+    /* align-items: center;
+    justify-content: center; */
+
+}
+
+.container__title{
+
+}
+
+.title{
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

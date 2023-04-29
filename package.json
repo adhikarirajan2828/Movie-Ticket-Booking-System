@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/adhikarirajan2828/Movie-Ticket-Booking-System.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/adhikarirajan2828/Movie-Ticket-Booking-System.git"
   },
-  "homepage": ""
+  "homepage": "https://github.com/adhikarirajan2828/Movie-Ticket-Booking-System.git"
 }
