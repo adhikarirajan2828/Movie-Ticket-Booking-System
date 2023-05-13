@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from .forms import LoginForm, RegisterForm, OtpForm
 from django.contrib import messages
@@ -17,14 +17,15 @@ from Movies.models import (
     movieLanguage,
     movieShowtime,
     movieType,
-)
+ )
 from Movies.forms import (
-    AddMovieForm,
-    AddMovieCertificate,
-    AddMovieType,
-    AddMovieLanguage,
-    AddMovieShowtime,
-)
+     AddMovieForm,
+     AddMovieCertificate,
+     AddMovieType,
+     AddMovieLanguage,
+     AddMovieShowtime,
+     movieForm
+ )
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
@@ -69,20 +70,23 @@ def viewUser(request, id=None):
 
 
 def deleteUser(request, id):
-    if request.method == "GET":
-        print("HERE")
-        rec = MyUser.objects.get(pk=id)
-        rec.delete()
-        data = {"rec": rec}
+    user = get_object_or_404(MyUser, pk=id)
+    print("Deleting user-------------------")
+    print(user)
+    if request.method == "POST":
+        user.delete()
+        messages.success(request,"User Deleted Successfully")
         return redirect("UserRecord")
-    return render(request, "accounts/deleteUser.html", data)
+    return render(request, "accounts/deleteUser.html", {"user": user})
 
 
 def movieDetails(request, id=None):
     movieData = Movies.objects.get(pk=id)
+    request.session["movieId"] = id
+    print("movie ID ",request.session["movieId"])
     request.session["movie_title"] = movieData.movie_title
     print(request.session["movie_title"])
-    movieRec = {"movieData": movieData}
+    movieRec = {"movieData": movieData, "showtime": movieData.movie_showtime.all()}
 
     return render(request, "Movies/movieDetails.html", movieRec)
 
@@ -100,14 +104,27 @@ def movieRecord(request):
     return render(request, "Movies/movieRecord.html", movieRec)
 
 
+def editMovieRecord(request, id=None):
+    movie = get_object_or_404(Movies, id=id)
+    form = movieForm(request.POST or None, instance=movie)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect("movieRecord")
+    return render(request, "Movies/editMovieRecord.html", {"form": form})
+
 def addMovie(request):
     if request.method == "POST":
         form = AddMovieForm(request.POST, request.FILES)
         if form.is_valid():
+            movie_title = form.cleaned_data['movie_title']
+            movie_exists = Movies.objects.filter(movie_title=movie_title).exists()
+            if movie_exists:
+                messages.info(request, "Title already exists!")
+                return render(request, "Movies/addMovie.html", {"form": form})
+            
             form.save()
             return redirect("home")
-        else:
-            print("Not saved")
     else:
         form = AddMovieForm()
 
@@ -182,10 +199,6 @@ def addMovieShowtime(request):
     else:
         form = AddMovieShowtime()
     return render(request, "Movies/addMovieShowtime.html", {"form": form})
-
-
-def seatView(request):
-    return render(request, "Movies/seatView.html")
 
 
 # Create your views here.
@@ -313,7 +326,7 @@ def signout(request):
     return redirect("home")
 
 
-@login_required(login_url="singin")
+@login_required(login_url="signin")
 def adminDashboard(request):
     userId = request.session.get("userId", None)
     if userId is not None:

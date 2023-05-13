@@ -33,15 +33,15 @@ urlpatterns = [
     path("UserRecord", views.UserRecord, name="UserRecord"),
     path("addUser", views.addUser, name="addUser"),
     path("viewUser<id>", views.viewUser, name="viewUser"),
-    path("deleteUser<id>", views.deleteUser, name="deleteUser"),
+    path("deleteUser<int:id>", views.deleteUser, name="deleteUser"),
     path("movieDetails<id>", views.movieDetails, name="movieDetails"),
     path("viewTrailer<id>", views.viewTrailer, name="viewTrailer"),
-    path("seatView", views.seatView, name="seatView"),
     path("sendotp", views.sendOTP, name="sendOTP"),
     path("mytickets", views.myTickets,name="mytickets"),
     path("myloyalty", views.rewardPoint, name='rewardpoints'),
     path("otp", views.otpView, name='otp'),
-    path("verifyotp", views.verifyOTPView, name='verify-otp')
+    path("verifyotp", views.verifyOTPView, name='verify-otp'),
+    path("editMovieRecord<id>", views.editMovieRecord, name="edit-movie-record")
 
 ]
 if settings.DEBUG:

@@ -30,7 +30,7 @@ const BookTicketfunc = async () => {
   if(movieDate.value === ""){
     alert('please select a date');
   }else {
-    bookTicket.href = '/seatView'
+    bookTicket.href = '/movies/seatview'
   }
 
   console.log(data);

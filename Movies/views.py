@@ -3,14 +3,19 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Ticket
+
+from .models import Ticket, Movies
 from account.models import MyUser
 import json
 
 
 @csrf_exempt
 def seatView(request):
-    return render(request, "Movies/seatView.html")
+    userId = request.session["userId"]
+    user = MyUser.objects.get(id=userId)
+    movie = Movies.objects.get(id=request.session["movieId"])
+    context = {"user": user, "movie": movie}
+    return render(request, "Movies/seatView.html", context=context)
 
 
 @login_required(login_url="signin")
@@ -18,8 +23,7 @@ def seatView(request):
 def ticket_date(request):
     if request.method == "POST":
         try:
-            data = json.loads(request.body)
-            date = data["date"]
+            date = json.loads(request.body)["date"]
             print("---------------")
             print(date)
             request.session["movie_date"] = date
@@ -31,13 +35,8 @@ def ticket_date(request):
                 "seat_number", flat=True
             )  # no flat=True means it returns list of tuples
             seats = list(query_set)
-            userId = request.session["userId"]
-            user = MyUser.objects.get(id=userId)
-            print(seats)
             seats = " ".join(seats)
-            context = {"reserved_seats": seats, "user": user}
-            print(context)
-            return render(request, "Movies/seatView.html", context)
+            return redirect("seat-view")
         except Exception as e:
             print(e)
             return HttpResponse("<h3>something went wrong</h3>")
@@ -54,8 +53,9 @@ def book_ticket(request):
         print(data)
         userId = request.session["userId"]
         user = MyUser.objects.get(id=userId)
-        newTicket = Ticket.objects.create(
+        Ticket.objects.create(
             user=user,
+            movie = Movies.objects.get(id=request.session["movieId"]),
             movie_title=request.session["movie_title"],
             seat_number=" ".join(map(str, data["seatSelectedNumber"])),
             price=data["totalPrice"],
@@ -67,8 +67,6 @@ def book_ticket(request):
         user.save()
         print("ticket created successfully")
 
-        # newTicket.generate_barcode()
-
         return HttpResponse(status=200)  # redirect('seatView')
     return HttpResponse("<h3>Something went wrong!</h3>")
 
@@ -76,18 +74,14 @@ def book_ticket(request):
 def reserved_seats(request):
     if request.method == "GET":
         try:
-            print("reserved sets-------->")
             date = request.session["movie_date"]
-            print(date)
             title = request.session["movie_title"]
-            print(title)
             query_set = Ticket.objects.filter(
                 movie_title=title, movie_date=date
             ).values_list(
                 "seat_number", flat=True
             )  # no flat=True means it returns list of tuples
             seats = list(query_set)
-            print(seats)
             seats = " ".join(seats)
             context = {"reserved_seats": seats}
             return JsonResponse(context)
@@ -114,10 +108,11 @@ def buyWithPoint(request):
                 movie_date=request.session["movie_date"],
             )
             print("ticket created successfully")
-            user.reward_point -= 100
+            user.reward_point -= 10
             user.save()
             return redirect("mytickets")
         except Exception as e:
             print(e)
             return HttpResponse("<h3>Something went wrong!</h3>")
     return HttpResponse("Invalid Method!!")
+

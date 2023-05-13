@@ -13,9 +13,7 @@
         <td>Director</td>
         <td>Releasing Date</td>
         <td>Action</td>
-        
-        
-        
+         
     </tr>
 
     {% for rec in movieData %}
@@ -27,7 +25,7 @@
         <td>{{rec.movie_cast}}</td>
         <td>{{rec.movie_director}}</td>
         <td>{{rec.release_date}}</td>
-        <td><a href="viewUser{{rec.id}}">view</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
+        <td><a href="editMovieRecord{{rec.id}}">edit</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
        
     </tr>
 

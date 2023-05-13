@@ -34,10 +34,10 @@ class movieLanguage(models.Model):
 
 
 class movieShowtime(models.Model):
-    showtime_name = models.CharField(max_length=50)
+    showtime = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.showtime_name
+        return self.showtime
 
 
 class Movies(models.Model):
@@ -57,8 +57,8 @@ class Movies(models.Model):
     movie_certificate = models.ForeignKey(
         movieCertificate, on_delete=models.CASCADE, blank=True, null=True
     )
-    movie_showtime = models.ForeignKey(
-        movieShowtime, on_delete=models.CASCADE, blank=True, null=True
+    movie_showtime = models.ManyToManyField(
+        movieShowtime, blank=True
     )
     movie_trailer = EmbedVideoField()
     movie_price = models.CharField(max_length=50, blank=True, null=True)
@@ -70,9 +70,10 @@ class Movies(models.Model):
 
 class Ticket(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
+    movie = models.ForeignKey(Movies, on_delete=models.SET_NULL, null=True)
     ticket_id = models.BigAutoField(primary_key=True)
     movie_date = models.CharField(max_length=11, blank=True)
-    movie_title = models.CharField(max_length=30)
+    movie_title = models.CharField(max_length=50, null=True)
     seat_number = models.CharField(max_length=50, blank=True)
     movie_showtime = models.CharField(max_length=12, blank=True)
     price = models.CharField(max_length=5)

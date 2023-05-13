@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -21,7 +18,7 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-      <form method="post" >
+      <form method="post" action="/deleteUser{{user.id}}" >
         {% csrf_token %}
         <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -32,7 +29,7 @@
               </div>
              
               <div class="modal-body">
-                <h5>Are you sure want to delete this user?</h5>
+                <h5>Are you sure want to delete this user {{ user.id }} ?</h5>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>

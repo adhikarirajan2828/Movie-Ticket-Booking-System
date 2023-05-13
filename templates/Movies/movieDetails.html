@@ -51,13 +51,26 @@
     </tr>
 
     <tr>
-        <th>Select Date and Time</th>
-        <td><input type="date" id="movieDate"></td>
+        <th>Select Date</th>
+        <td><input type="date" id="movieDate">
+            <select name="movie_showtime">
+                {% for time in showtime %}
+                <option value="{{ time.showtime }}">{{ time.showtime }}</option>
+                {% endfor %}
+            </select>   
+        </td>
     </tr>
+    {% comment %} <td>
+        <select name="movie_showtime">
+            {% for time in showtime %}
+            <option value="{{ time.showtime }}">{{ time.showtime }}</option>
+            {% endfor %}
+        </select>     
+    </td> {% endcomment %}
 
     <tr>
         <th></th>
-        <td><a class="btn btn-primary" id="BookTicket" onclick="BookTicketfunc()" >Book Tickets</a></td>
+        <td><a class="btn btn-primary" id="BookTicket" href="/movies/seatview" onclick="BookTicketfunc()" >Book Tickets</a></td>
     </tr>
 
     

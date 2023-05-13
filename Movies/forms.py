@@ -9,12 +9,16 @@ class AddMovieForm(forms.ModelForm):
         widget= forms.DateTimeInput(
             # format = '%Y-%m-%d',
             attrs={
-                'type':'datetime-local'
+                'type':'date'
             }),
         # input_formats=('%Y-%m-%d')
     )
     
     # movie_showtime=forms.MultipleChoiceField(choices=[(item.pk, item) for item in movieShowtime.objects.all()], widget=forms.CheckboxSelectMultiple)
+    # movie_showtime = forms.MultipleChoiceField(
+    #     choices=[(item.pk, item) for item in movieShowtime.objects.all()], 
+    #     widget=forms.RadioSelect
+    # )
     class Meta:
         model = Movies
         fields = "__all__"
@@ -69,3 +73,8 @@ class AddMovieShowtime(forms.ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'    
            
+
+class movieForm(forms.ModelForm):
+    class Meta:
+        model = Movies
+        fields = "__all__"

@@ -8,6 +8,7 @@ urlpatterns = [
     path("ticket", views.book_ticket, name="book_ticket"),
     path("reservedseats", views.reserved_seats, name="get_reserved_seats"),
     path("buywithpoint", views.buyWithPoint, name="buy-with-points"),
+    path("seatview", views.seatView, name="seat-view"),
 ]
 
 
