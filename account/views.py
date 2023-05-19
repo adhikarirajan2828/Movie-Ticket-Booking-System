@@ -7,9 +7,15 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from .models import MyUser, otp
 from Movies.models import Ticket
+
 import barcode
 from barcode.writer import ImageWriter
 from barcode import EAN13
+
+from io import BytesIO
+from django.template.loader import get_template
+
+from xhtml2pdf import pisa
 
 from Movies.models import (
     Movies,
@@ -17,6 +23,7 @@ from Movies.models import (
     movieLanguage,
     movieShowtime,
     movieType,
+    movieStatus
  )
 from Movies.forms import (
      AddMovieForm,
@@ -31,13 +38,16 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 import random
-import json
+
+from django.http import HttpResponse
 
 
 def dashboard(request):
+    print('helrjlk')
     UserCount = MyUser.objects.all().count()
     movieCount = Movies.objects.all().count()
     userRec = {"UserCount": UserCount, "movieCount": movieCount}
+    print(UserCount)
 
     return render(request, "accounts/dashboard.html", userRec)
 
@@ -68,27 +78,75 @@ def viewUser(request, id=None):
 
     return render(request, "accounts/viewUser.html", {"rec": rec})
 
-
+#@login_required(login_url="signin")
+@csrf_exempt
 def deleteUser(request, id):
+    print(id)
     user = get_object_or_404(MyUser, pk=id)
     print("Deleting user-------------------")
     print(user)
+    print(request.method)
     if request.method == "POST":
         user.delete()
         messages.success(request,"User Deleted Successfully")
-        return redirect("UserRecord")
-    return render(request, "accounts/deleteUser.html", {"user": user})
+        print('good')
+        return redirect("/UserRecord")
+    return HttpResponse('method not allowed')
 
-
+@login_required(login_url="signin")
 def movieDetails(request, id=None):
     movieData = Movies.objects.get(pk=id)
     request.session["movieId"] = id
     print("movie ID ",request.session["movieId"])
     request.session["movie_title"] = movieData.movie_title
     print(request.session["movie_title"])
+    print( movieData.movie_showtime.all())
     movieRec = {"movieData": movieData, "showtime": movieData.movie_showtime.all()}
 
     return render(request, "Movies/movieDetails.html", movieRec)
+
+@csrf_exempt
+def deleteCategory(request, id=None):
+    category = movieType.objects.get(id=id)
+    if request.method == "POST":
+        category.delete()
+        messages.success(request, "Category deleted successfully")
+        return redirect("movieTypeRecord")
+    return HttpResponse("Method not allowed!")
+
+
+@csrf_exempt
+def deleteLanguage(request, id=None):
+    language = movieLanguage.objects.get(id=id)
+    if request.method == "POST":
+        language.delete()
+        messages.success(request, "language deleted successfully")
+        return redirect("movieLanguageRecord")
+    return HttpResponse("Method not allowed!")
+
+@csrf_exempt
+def deleteMovie(request, id=None):
+    movie = Movies.objects.get(id=id)
+    if request.method == "POST":
+        movie.delete()
+        messages.success(request, "Movie deleted successfully")
+        return redirect("movieRecord")
+    return HttpResponse("Method not allowed!")
+
+
+
+
+def addMovieStatus(request):
+    if request.method == "POST":
+        form = addMovieStatus(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("movieCertificateRecord")
+        else:
+            print("Not Saved")
+    else:
+        form = addMovieStatus()
+    return render(request, "Movies/movieStatus.html", {"form": form})
 
 
 def viewTrailer(request, id=None):
@@ -136,6 +194,13 @@ def movieCertificateRecord(request):
     certificateRec = {"certificateData": certificateData}
     return render(request, "Movies/movieCertificateRecord.html", certificateRec)
 
+@csrf_exempt
+def deleteCertificate(request, id=None):
+    certificate = movieCertificate.objects.get(id=id)
+    if request.method == "POST":
+        certificate.delete()
+        redirect("movieCertificateRecord")
+    return HttpResponse("Invalid request")
 
 def addMovieCertificate(request):
     if request.method == "POST":
@@ -189,6 +254,13 @@ def movieShowtimeRecord(request):
     showtimeRec = {"showtimeData": showtimeData}
     return render(request, "Movies/movieShowtimeRecord.html", showtimeRec)
 
+@csrf_exempt
+def deleteShowTime(request, id=None):
+    showTime = movieShowtime.objects.get(id=id)
+    if request.method == "POST":
+        showTime.delete()
+        redirect("movieShowtimeRecord")
+    return HttpResponse("Invalid request")
 
 def addMovieShowtime(request):
     if request.method == "POST":
@@ -203,12 +275,17 @@ def addMovieShowtime(request):
 
 # Create your views here.
 def home(request):
+    img_slider = Movies.objects.all()
     first_name = ""
-    user_dict = request.session.get("user", None)
-    if user_dict is not None:
-        first_name = user_dict["first_name"]
-    movieData = Movies.objects.all()
-    data = {"first_name": first_name, "movieData": movieData}
+    uid = request.session.get("userId", None)
+    if uid is not None:
+        first_name = MyUser.objects.get(id=uid).first_name
+    
+    running = movieStatus.objects.get(id=1) #running
+    upcoming = movieStatus.objects.get(id=2) #upcoming
+    upcomingMovies = Movies.objects.filter(movie_status=upcoming)
+    runningMovies = Movies.objects.filter(movie_status=running)   
+    data = {"first_name": first_name, "upcomingMovies": upcomingMovies, "runningMovies": runningMovies,"img_slider":img_slider}
     return render(request, "accounts/index.html", data)
 
 
@@ -281,13 +358,13 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            # messages.success(request, "Your account has been successfully created.")
+            messages.success(request, "Your account has been successfully created.")
             email = form.cleaned_data["email"]
             request.session["userId"] = MyUser.objects.get(email=email).id
             sendOTP(email)
             return redirect("otp")
         else:
-            messages.error(request, "Invalids Informations")
+            messages.error(request, "Password must be of 8 characters. It must conatin 1 number, 1 uppercase, 1 lowercase, 1 letter. It must not contain firstname and lastname")
     return render(request, "accounts/register.html", {"form": form})
 
 
@@ -314,7 +391,9 @@ def signin(request):
                 }
                 return render(request, "accounts/index.html", data)
             else:
-                print("Bad credentials.")
+                print("Bad Credentials")
+        else:
+            messages.error(request,"Invalid Informations")
     form = LoginForm()
 
     return render(request, "accounts/login.html", {"form": form})
@@ -330,9 +409,13 @@ def signout(request):
 def adminDashboard(request):
     userId = request.session.get("userId", None)
     if userId is not None:
+        UserCount = MyUser.objects.all().count()
+        ticketCount = Ticket.objects.all().count()
+        movieCount = Movies.objects.all().count()
+        userRec = {"UserCount": UserCount, "movieCount": movieCount,"ticketCount": ticketCount}
         user = MyUser.objects.get(id=userId)
         if user.is_superuser:
-            return render(request, "accounts/dashboard.html")
+            return render(request, "accounts/dashboard.html",userRec)
         else:
             return HttpResponse("Access Denied!!")
     else:
@@ -376,6 +459,35 @@ def myTickets(request):
             print(context)
             generate_barcode(ticketInfo)
             return render(request, "Movies/myTickets.html", context)
+        except Exception as e:
+            print(e)
+            return HttpResponse(f"Internal server error")
+    return HttpResponse("Invalid Method")
+
+
+
+def render_to_pdf(template_src, context_dict={}):
+    result = BytesIO()
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+    
+
+
+@login_required(login_url="signin")
+def tickets(request):
+    if request.method == "GET":
+        try:
+            userId = request.session["userId"]
+            print(userId)
+            ticketInfo = Ticket.objects.filter(user=MyUser.objects.get(id=userId))
+            context = {"tickets": ticketInfo}
+            pdf = render_to_pdf('Movies/tickets.html', context)
+            print(context)
+            return HttpResponse(pdf, content_type='application/pdf')
         except Exception as e:
             print(e)
             return HttpResponse(f"Internal server error")

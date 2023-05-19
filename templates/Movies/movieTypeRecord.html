@@ -1,18 +1,19 @@
 {% extends "base1.html" %}
 
-{% block content %}
+{% block content %}{% load static %}
+<script defer src={% static 'js/deletecategory.js' %}></script>
 
 <h2 class="text-center">Category List<a href="addMovieType" class="btn btn-dark">Add Movie Category</a></h2>
 
 <table class="table table-bordered">
-    <tr class="bg-dark text-white" >
+    <tr class="bg-dark text-white">
         <td>ID</td>
         <td>Category Name</td>
         <td>Category Description</td>
         <td>Action</td>
-        
-        
-        
+
+
+
     </tr>
 
     {% for rec in categoryData %}
@@ -21,9 +22,35 @@
         <td>{{rec.id}}</td>
         <td>{{rec.type_name}}</td>
         <td>{{rec.type_des}}</td>
-       
-        <td><a href="viewUser{{rec.id}}">view</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
-       
+
+        <td>
+            <!-- Button trigger modal -->
+            <a href="deleteCategory{{rec.id}}" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal--{{rec.id}}">
+                Delete
+            </a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal--{{rec.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{rec.type_des}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary deleteCategory" data-dismiss="modal" data-movie-id={{rec.id}}>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
     </tr>
 
     {% endfor %}

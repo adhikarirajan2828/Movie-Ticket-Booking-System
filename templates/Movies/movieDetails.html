@@ -1,80 +1,76 @@
 {% extends 'templates/base.html' %} {% block content %} {% load static %}
-    <script defer  src={% static 'js/movieDetails.js' %}></script>
+<script defer src={% static 'js/movieDetails.js' %}></script>
 
 <div class="w-50 m-auto p-4">
-    <h3 class="text-center">Details of Movie : {{movieData.movie_title}}</h3><hr>
-<table class="table table-bordered">
+    <h3 class="text-center">Details of Movie : {{movieData.movie_title}}</h3>
+    <hr>
+    <table class="table table-bordered">
 
-    {% comment %} <tr>
-        <th>ID</th>
-        <td>{{movieData.id}}</td>
-    </tr> {% endcomment %}
+        {% comment %} <tr>
+            <th>ID</th>
+            <td>{{movieData.id}}</td>
+        </tr> {% endcomment %}
 
-    <tr>
-        <th>Name</th>
-        <td>{{movieData.movie_title}}  <a href="viewTrailer{{movieData.id}}">(View Trailer)</a></td>
-    </tr>
-    
-    <tr>
-        <th>Certificate</th>
-        <td>{{movieData.movie_certificate}}</td>
-    </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{movieData.movie_title}} <a href="viewTrailer{{movieData.id}}">(View Trailer)</a></td>
+        </tr>
 
-    <tr>
-        <th>Type</th>
-        <td>{{movieData.movie_type}}</td>
-    </tr>
+        <tr>
+            <th>Certificate</th>
+            <td>{{movieData.movie_certificate}}</td>
+        </tr>
 
-    <tr>
-        <th>Language</th>
-        <td>{{movieData.movie_language}}</td>
-    </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{movieData.movie_type}}</td>
+        </tr>
 
-    <tr>
-        <th>Duration</th>
-        <td>{{movieData.movie_duration}}</td>
-    </tr>
+        <tr>
+            <th>Language</th>
+            <td>{{movieData.movie_language}}</td>
+        </tr>
 
-    <tr>
-        <th>Director</th>
-        <td>{{movieData.movie_director}}</td>
-    </tr>
+        <tr>
+            <th>Duration</th>
+            <td>{{movieData.movie_duration}}</td>
+        </tr>
 
-    <tr>
-        <th>Cast</th>
-        <td>{{movieData.movie_cast}}</td>
-    </tr>
+        <tr>
+            <th>Director</th>
+            <td>{{movieData.movie_director}}</td>
+        </tr>
 
-    <tr>
-        <th>Description</th>
-        <td>{{movieData.movie_des}}</td>
-    </tr>
+        <tr>
+            <th>Cast</th>
+            <td>{{movieData.movie_cast}}</td>
+        </tr>
 
-    <tr>
-        <th>Select Date</th>
-        <td><input type="date" id="movieDate">
-            <select name="movie_showtime">
-                {% for time in showtime %}
-                <option value="{{ time.showtime }}">{{ time.showtime }}</option>
-                {% endfor %}
-            </select>   
-        </td>
-    </tr>
-    {% comment %} <td>
-        <select name="movie_showtime">
-            {% for time in showtime %}
-            <option value="{{ time.showtime }}">{{ time.showtime }}</option>
-            {% endfor %}
-        </select>     
-    </td> {% endcomment %}
+        <tr>
+            <th>Description</th>
+            <td>{{movieData.movie_des}}</td>
+        </tr>
 
-    <tr>
-        <th></th>
-        <td><a class="btn btn-primary" id="BookTicket" href="/movies/seatview" onclick="BookTicketfunc()" >Book Tickets</a></td>
-    </tr>
+        <tr>
+            <th>Select Date</th>
+            <td><input type="date" id="movieDate">
+                <select name="movie_showtime">
+                    {% for time in showtime %}
+                    <option value="{{ time.showtime }}">{{ time.showtime }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+      
 
-    
-</table>
+        <tr>
+            <th></th>
+            <td><a class="btn btn-primary" id="BookTicket" href="/movies/seatview" onclick="BookTicketfunc()">Book
+                    Tickets</a></td>
+        </tr>
+
+
+    </table>
 </div>
 
 {%endblock%}

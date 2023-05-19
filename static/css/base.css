@@ -1,0 +1,25 @@
+.nav__container{
+    font-size:17px;
+    display:flex; 
+    justify-content: space-between;
+    background-color: rgba(27, 25, 25, 0.5);
+}
+
+.nav__left{
+    display:flex;
+    margin-left:20px
+}
+
+.nav__right{
+    display:flex;
+    margin-right: 20px;
+}
+
+.link{
+
+}
+
+.link:hover{
+    background-color: azure;
+    text-decoration: none;
+}

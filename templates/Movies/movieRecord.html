@@ -1,19 +1,23 @@
 {% extends "base1.html" %}
 
-{% block content %}
+{% block content %}{% load static %}
+<script defer src={% static 'js/deleteMovie.js' %}></script>
+<!-- <script defer src={% static 'js/modal.js' %}></script> -->
+
 
 <h2 class="text-center">Movies List <a href="addMovie" class="btn btn-dark">Add Movie</a></h2>
 
 <table class="table table-bordered">
-    <tr class="bg-dark text-white" >
+    <tr class="bg-dark text-white">
         <td>ID</td>
         <td>Movie Name</td>
         <td>Movie Image</td>
         <td>Casts</td>
         <td>Director</td>
+        <td>Movie Status</td>
         <td>Releasing Date</td>
         <td>Action</td>
-         
+
     </tr>
 
     {% for rec in movieData %}
@@ -24,9 +28,45 @@
         <td><img src="/media/{{rec.movie_img}}" width="80px"></td>
         <td>{{rec.movie_cast}}</td>
         <td>{{rec.movie_director}}</td>
+        <td>{{rec.movie_status}}</td>
         <td>{{rec.release_date}}</td>
-        <td><a href="editMovieRecord{{rec.id}}">edit</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
-       
+        <td><a type="button" class="btn btn-primary" href="editMovieRecord{{rec.id}}">edit</a> /
+            <a type="button" href="deleteMovie{{rec.id}}" class="btn btn-danger"  data-toggle="modal"
+                data-target="#exampleModalCenter--{{rec.id}}">
+                Delete
+            </a>
+
+            <!-- Modal -->
+
+            <div class="modal fade" id="exampleModalCenter--{{rec.id}}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Deleting Movie</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{rec.movie_title}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form class="deleteUser" method="post">
+                                {% csrf_token %}
+                                <!-- <a type="button" class="btn btn-primary" id="deleteMovie" >Delete</a> -->
+                                <button type="button" class="btn btn-primary deleteMovie " data-movie-id={{rec.id}}
+                                     >Save
+                                    changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </td>
+
     </tr>
 
     {% endfor %}

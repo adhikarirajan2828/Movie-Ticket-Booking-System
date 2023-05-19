@@ -2,39 +2,28 @@ window.onload = async () => {
   const { data } = await axios.get(
     "http://localhost:8000/movies/reservedseats"
   );
-  // console.log("here is reserved");
-  // console.log(typeof data.reserved_seats);
+  ticketPrice = price.getAttribute('data-price');
   bookedSeatNum = data.reserved_seats.split(" ");
-  // console.log(bookedSeatNum);
   ReservedSeat.forEach((e, index) => {
-    // console.log(e)
     let seatReserved = e.getAttribute("data-value");
-    // console.log(seatReserved);
 
     if (bookedSeatNum.includes(seatReserved)) {
       e.classList.remove("selected");
       e.classList.add("reserved");
-      // console.log("booked");
     }
   });
 
-  // var btn = document.getElementById("bookTicket");
-  // btn.onclick = function () {
-  //   // minimum transaction amount must be 10, i.e 1000 in paisa.
-  //   checkout.show({ amount: 1000 });
-  // };
-  // const seats = document.querySelectorAll(".seat:not(.reserved)");
 };
+const price = document.getElementById("price");
 const ReservedSeat = document.querySelectorAll(".seat");
 const seats = document.querySelectorAll(".seat:not(.reserved)");
-// const movie = document.getElementById("movie");
 const bookTicket = document.getElementById("bookTicket");
 const buyTicket = document.getElementById("buyTicket");
 
 let bookedSeatNum = [1, 2, 3];
 let bookedSeat = [];
 
-const ticketPrice = 100;
+let ticketPrice;
 let movieName;
 let seatSelectedNumber = [];
 let totalPrice;
@@ -45,7 +34,6 @@ let seatNumber;
 seats.forEach((e) => {
   e.addEventListener("click", (event) => {
     if (!e.classList.contains("reserved")) {
-      // console.log(e);
       e.classList.toggle("selected");
       seatNumber = e.getAttribute("data-value");
 
@@ -61,7 +49,6 @@ seats.forEach((e) => {
 
 const postSeat = async () => {
   let config = {
-    // replace the publicKey with yours. Here is mine.
     publicKey: "test_public_key_c918cf965e0e41ccb38bde814a012ad0",
     productIdentity: "1234567890",
     productName: "Dragon",
@@ -75,19 +62,15 @@ const postSeat = async () => {
     ],
     eventHandler: {
       async onSuccess(payload) {
-        // hit merchant api for initiating verfication
         const response = await axios.post(
           "http://localhost:8000/movies/ticket",
           {
-            // movieName,
             totalPrice,
             ticketPrice,
-            // totalSeatCount,
             seatSelectedNumber,
           }
         );
-        if(response.status === 200) {
-          // console.log('hlsdhfl')
+        if (response.status === 200) {
           window.location.href = 'http://localhost:8000/mytickets';
         }
       },
@@ -100,28 +83,25 @@ const postSeat = async () => {
     },
   };
 
-  // movieName = movie.value;
   var checkout = new KhaltiCheckout(config);
   console.log("checkout");
   console.log(checkout);
-  checkout.show({ amount: totalPrice * 100 });
+  checkout.show({ amount: totalPrice });
 
 
- 
+
   console.log(response);
 };
 
-const loyaltyTicket = async() => {
-  const response  = await axios.post("http://localhost:8000/movies/buywithpoint", {
-    // movieName,
+const loyaltyTicket = async () => {
+  const response = await axios.post("http://localhost:8000/movies/buywithpoint", {
     totalPrice,
     ticketPrice,
-    // totalSeatCount,
     seatSelectedNumber,
   });
   console.log(response);
 
-  if(response.status === 200) {
+  if (response.status === 200) {
     window.location.href = 'http://localhost:8000/mytickets';
   }
 }

@@ -12,13 +12,13 @@
     
     <form method="POST" action="{% url 'addMovie' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {% if messages %}
+        <!-- {% if messages %}
             {% for message in messages %}
             <div class="alert alert-danger" role="alert">
                 {{ message }}
             </div>
             {% endfor %}
-        {% endif %}
+        {% endif %} -->
 
         
         {{ form.as_p }}

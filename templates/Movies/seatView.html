@@ -81,7 +81,7 @@
     </li>
     <li>
       <div class="seat"></div>
-      <small>Reserved</small>
+      <small>Available</small>
     </li>
     <li>
       <div style="background-color: white;height:18px;width:18px;margin:3px;border-radius: 5px;"></div>
@@ -95,9 +95,9 @@
     <div style="color:white">here is the price: &nbsp; Rs.</span> <span id="amount"></div>
         <div style="color:white">your points: {{ user.reward_point }}</div>
   </p>
-  <p>Price per ticket :{{ movie.movie_price }} </p>
-  <a id="buyTicket" ><button onclick='postSeat()' id="bookTicket"> Buy Ticket</button></a>
-  {% if user.reward_point > 10 %}
+  <!-- <p>Price per ticket :{{ movie.movie_price }} </p> -->
+  <a id="buyTicket" ><button onclick='postSeat()' class="btn btn-warning" data-movie-price={{movie.movie_price}} id="bookTicket"> Buy Ticket</button></a>
+  {% if user.reward_point > 99 %}
   <hr/> <button onclick='loyaltyTicket()''>Buy ticket with reward point</button>>
   {% endif %}
 </div>

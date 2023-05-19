@@ -1,0 +1,39 @@
+{% extends "base1.html" %}
+
+{% block content %}{% load static %}
+<script defer src={% static 'js/deleteCategory.js' %}></script>
+
+<h2 class="text-center">Category List<a href="addMovieStatus" class="btn btn-dark">Add new Movie Status</a></h2>
+
+<table class="table table-bordered">
+    <tr class="bg-dark text-white">
+        <td>ID</td>
+        <td>Status</td>
+        <td>Status Description</td>
+        <td>Action</td>
+
+
+
+    </tr>
+
+    {% for rec in categoryData %}
+
+    <tr>
+        <td>{{rec.id}}</td>
+        <td>{{rec.movie_status}}</td>
+        <td>{{rec.description}}</td>
+
+        <td> <a href="" data-movie-id="{{rec.id}}" id="deleteCategory" data-toggle="modal"
+                data-target="#deleteUser">Delete</a></td>
+
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+
+
+
+
+{% endblock %}

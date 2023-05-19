@@ -38,11 +38,20 @@ class movieShowtime(models.Model):
 
     def __str__(self):
         return self.showtime
+    
+class movieStatus(models.Model):
+    movie_status = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.movie_status
+
 
 
 class Movies(models.Model):
-    img_slider = models.ImageField(upload_to="movies_images/", blank=True, null=True)
+    img_slider = models.ImageField(upload_to="movies_images/", blank=True, null=True)   
     movie_img = models.ImageField(upload_to="movies_images/")
+    movie_status = models.ForeignKey(movieStatus, on_delete=models.CASCADE, blank=True, null=True)
     movie_title = models.CharField(max_length=50)
     movie_cast = models.TextField(max_length=250)
     movie_director = models.CharField(max_length=200, blank=True, null=True)

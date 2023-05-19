@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 from .models import Ticket, Movies
+
 from account.models import MyUser
 import json
 
@@ -108,7 +109,7 @@ def buyWithPoint(request):
                 movie_date=request.session["movie_date"],
             )
             print("ticket created successfully")
-            user.reward_point -= 10
+            user.reward_point -= 100
             user.save()
             return redirect("mytickets")
         except Exception as e:

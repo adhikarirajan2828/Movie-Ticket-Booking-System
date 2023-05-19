@@ -1,6 +1,6 @@
 from django import forms
-from .models import Movies, movieCertificate, movieType, movieLanguage, movieShowtime
-
+from .models import Movies, movieCertificate, movieType, movieLanguage,movieShowtime, movieStatus
+# 
 
 class AddMovieForm(forms.ModelForm):
     
@@ -78,3 +78,17 @@ class movieForm(forms.ModelForm):
     class Meta:
         model = Movies
         fields = "__all__"
+        
+    def __init__(self, *args, **kwargs):
+        super(movieForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+
+class addMovieStatus(forms.ModelForm):
+    class Meta:
+        model = movieStatus
+        fields = "__all__"
+        
+        
+

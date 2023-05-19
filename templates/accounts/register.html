@@ -27,7 +27,10 @@
         {% csrf_token %}
         <h2>SIGN UP</h2>
         {% if messages %} {% for message in messages %}
-        <div class="alert alert-danger" role="alert">{{ message }}</div>
+        <div class="alert alert-danger" role="alert">{{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        
         {% endfor %} {% endif %}
         <hr class="my-0" />
         <div class="form-group">
@@ -54,13 +57,13 @@
 
         <br />
 
-        <div class="form-group">
+        {% comment %} <div class="form-group">
           <label class="Agree">
             <input type="checkbox" />
             I accept the <a href="#">Terms of use</a> &
             <a href="">Privacy policy.</a>
           </label>
-        </div>
+        </div> {% endcomment %}
 
         <input
           type="submit"

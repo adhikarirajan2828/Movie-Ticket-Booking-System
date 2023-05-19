@@ -1,21 +1,22 @@
-{% extends 'templates/base.html' %} {% block content %} {% load static %} <link
-rel="stylesheet" href={% static 'css/myTickets.css'%}> 
+{% extends 'templates/base.html' %} {% block content %} {% load static %}
+<link rel="stylesheet" href={% static 'css/myTickets.css' %}>
 {%for ticket in ticketInfo%}
 <div class="container">
-    <div class="container__title">
-        <div class="title">{{ ticket.movie_title }}</div>
-        <!-- <p>Movie name:{{ ticket.movie_title }}</p> -->
-        <!-- <p>Movie showtime: {{ ticket.movie_showtime }}</p> -->
-        <div>{{ticket.movie_date}}</div>
-        <div>Seat number: {{ticket.seat_number}}</div>
-    </div>
-  <img
-    src="/static/img/barcodes/{{ticket.ticket_id}}.png"
-    width="450"
-    height="250"
-  />
+  <div class="container__title">
+    <div class="title">{{ ticket.movie_title }}</div>
+    <!-- <p>Movie name:{{ ticket.movie_title }}</p> -->
+    <!-- <p>Movie showtime: {{ ticket.movie_showtime }}</p> -->
+    <div>{{ticket.movie_date}}</div>
+    <div>Seat number: {{ticket.seat_number}}</div>
+  </div>
+  <img src="/static/img/barcodes/{{ticket.ticket_id}}.png" width="450" height="250" />
+
+
 </div>
-{% endfor %} {%endblock%}
+{% endfor %}
+<a href="/tickets" style="display: flex;justify-content: center;align-items: center;margin-top:30px" target="_blank"><button class="btn btn-primary"  >Generate pdf</button></a>
+{%endblock%}
+
 
 <!-- <p>Ticket id:{{ ticket.ticket_id }}</p>
 <p>Movie name:{{ ticket.movie_title }}</p>

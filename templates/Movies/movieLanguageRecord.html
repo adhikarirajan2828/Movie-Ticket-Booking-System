@@ -1,18 +1,18 @@
 {% extends "base1.html" %}
 
-{% block content %}
-
+{% block content %}{% load static %}
+<script defer src={% static 'js/deletelanguage.js' %}></script>
 <h2 class="text-center">Language List<a href="addMovieLanguage" class="btn btn-dark">Add Movie Language</a></h2>
 
 <table class="table table-bordered">
-    <tr class="bg-dark text-white" >
+    <tr class="bg-dark text-white">
         <td>ID</td>
         <td>Language Name</td>
         <td>Language Description</td>
         <td>Action</td>
-        
-        
-        
+
+
+
     </tr>
 
     {% for rec in languageData %}
@@ -21,9 +21,42 @@
         <td>{{rec.id}}</td>
         <td>{{rec.language_name}}</td>
         <td>{{rec.language_des}}</td>
-       
-        <td><a href="viewUser{{rec.id}}">view</a> / <a href="" data-toggle="modal" data-target="#deleteUser">Delete</a></td>
-       
+
+        <td>
+            <!-- <a href="viewUser{{rec.id}}">view</a> /  -->
+            <!-- <a href="deleteLanguage{{rec.id}}" class="btn btn-danger" data-toggle="modal" data-target="#deleteUser">Delete</a></td> -->
+            <a type="button" href="deleteLanguage{{rec.id}}" class="btn btn-danger" data-toggle="modal"
+                data-target="#exampleModalCenter--{{rec.id}}">
+                Delete
+            </a>
+
+            <!-- Modal -->
+
+            <div class="modal fade" id="exampleModalCenter--{{rec.id}}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Deleting Langauge</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{rec.language_name}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form  method="post">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-primary deleteLanguage" data-dismiss="modal"
+                                    data-lang-id={{rec.id}} >Save
+                                    changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </tr>
 
     {% endfor %}

@@ -1,44 +1,74 @@
-{% extends 'base1.html '%}
-{% block content %}
-{% include 'accounts/deleteUser.html' %}
-
+{% extends 'base1.html '%} {% block content %} {% load static %}
+<script defer src={% static 'js/deleteuser.js' %}></script>
 {% for msg in messages %}
 <div class="alert alert-success" role="alert">
-    {{msg}}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-   
+  {{msg}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 
 {% endfor %}
 
-<h2 class="text-center">Customer List  <a href="addUser" class="btn btn-dark">Add User</a></h2>
+<h2 class="text-center">
+  Customer List <a href="addUser" class="btn btn-dark">Add User</a>
+</h2>
 
 <table class="table table-bordered">
-    <tr class="bg-dark text-white" >
-        <td>ID</td>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>Email</td>
-        <td>Joined Date</td>
-        <td>Action</td>
-        
-        
-    </tr>
+  <tr class="bg-dark text-white">
+    <td>ID</td>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>Email</td>
+    <td>Joined Date</td>
+    <td>Action</td>
+  </tr>
 
-    {% for rec in UserData %}
+  {% for rec in UserData %}
 
-    <tr>
-        <td>{{rec.id}}</td>
-        <td>{{rec.first_name}}</td>
-        <td>{{rec.last_name}}</td>
-        <td>{{rec.email}}</td>
-        <td>{{rec.joining_date}}</td>
-        <td><a class="btn btn-primary" href="viewUser{{rec.id}}">view</a> ---- <a href="deleteUser{{rec.id}}" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete</a></td>
-       
-    </tr>
+  <tr>
+    <td>{{rec.id}}</td>
+    <td>{{rec.first_name}}</td>
+    <td>{{rec.last_name}}</td>
+    <td>{{rec.email}}</td>
+    <td>{{rec.joining_date}}</td>
+    <td>
+      <a type="button" href="deleteUser{{rec.id}}" class="btn btn-danger" data-toggle="modal"
+        data-target="#exampleModalCenter--{{rec.id}}">
+        Delete
+      </a>
 
+      <!-- Modal -->
 
-    {% endfor %}
+      <div class="modal fade" id="exampleModalCenter--{{rec.id}}" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Deleting User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              {{rec.first_name}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <form  method="post">
+                {% csrf_token %}
+                <button type="button" class="btn btn-primary deleteUser" data-dismiss="modal" data-user-id={{rec.id}}
+                  >Save
+                  changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="btn btn-primary" href="viewUser{{rec.id}}">view</a>
+    </td>
+  </tr>
+
+  {% endfor %}
 </table>
 
 {% endblock %}

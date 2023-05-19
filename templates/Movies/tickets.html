@@ -1,0 +1,10 @@
+{%for ticket in tickets%}
+
+<p>Ticket id:{{ ticket.ticket_id }}</p>
+<p>Movie name:{{ ticket.movie_title }}</p>
+<p>Movie showtime: {{ ticket.movie_showtime }}</p>
+<p>Movie Date: {{ticket.movie_date}}</p>
+<p>Seat number:{{ticket.seat_number}}</p>
+<img src="static/img/barcodes/{{ticket.ticket_id}}.png" width="450" height="250">
+<p>---------------------------------------------------</p>
+{% endfor %}

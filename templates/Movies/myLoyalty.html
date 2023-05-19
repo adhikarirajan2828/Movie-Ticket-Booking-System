@@ -1,6 +1,9 @@
 {% extends 'templates/base.html' %}{% block content %}
 
-<p>My points:{{ points }}</p>
-<br />
-<p>You can buy a ticket with 100 points.</p>
+<div class="d-flex justify-content-center align-items-center flex-column" style="height:90vh;width:100vw">
+    <img src="static/img/trophy.jpg" style="height:30vw" alt="not fount">
+    <h1 class="font-weight-bold">My points:{{ points }}</h1>
+    <br />
+    <h3>You can buy a ticket with 100 points.</h3>
+</div>
 {% endblock %}

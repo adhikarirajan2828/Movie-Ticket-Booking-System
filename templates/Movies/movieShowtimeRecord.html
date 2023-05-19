@@ -1,17 +1,19 @@
 {% extends "base1.html" %}
 
-{% block content %}
+{% block content %} {% load static %}
+<script defer src={% static 'js/deleteShowTime.js' %}></script>
+
 
 <h2 class="text-center">Showtime List<a href="addMovieShowtime" class="btn btn-dark">Add Movie Showtime</a></h2>
 
 <table class="table table-bordered">
-    <tr class="bg-dark text-white" >
+    <tr class="bg-dark text-white">
         <td>ID</td>
         <td>Showtime</td>
         <td>Action</td>
-        
-        
-        
+
+
+
     </tr>
 
     {% for rec in showtimeData %}
@@ -19,8 +21,42 @@
     <tr>
         <td>{{rec.id}}</td>
         <td>{{rec.showtime}}</td>
-        <td><a href="">view</a> / <a href="">Delete</a></td>
-       
+        <td>
+            <!-- <a type="button" class="btn btn-danger deleteShowTime" data-show-id={{rec.id}} href="" >Delete</a> -->
+            <a type="button" href="deleteShowTime{{rec.id}}" class="btn btn-danger" data-toggle="modal"
+            data-target="#exampleModalCenter--{{rec.id}}">
+            Delete
+          </a>
+    
+          <!-- Modal -->
+    
+          <div class="modal fade" id="exampleModalCenter--{{rec.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Deleting Show Time</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {{rec.showtime_name}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <form  method="post">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-primary deleteShowTime" data-show-id={{rec.id}} data-dismiss="modal" data-user-id={{rec.id}}
+                      >Save
+                      changes</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+
     </tr>
 
     {% endfor %}
