@@ -7,18 +7,14 @@ class AddMovieForm(forms.ModelForm):
     release_date=forms.DateTimeField(
         label= "Released Date",
         widget= forms.DateTimeInput(
-            # format = '%Y-%m-%d',
+            
             attrs={
                 'type':'date'
             }),
-        # input_formats=('%Y-%m-%d')
+        
     )
     
-    # movie_showtime=forms.MultipleChoiceField(choices=[(item.pk, item) for item in movieShowtime.objects.all()], widget=forms.CheckboxSelectMultiple)
-    # movie_showtime = forms.MultipleChoiceField(
-    #     choices=[(item.pk, item) for item in movieShowtime.objects.all()], 
-    #     widget=forms.RadioSelect
-    # )
+ 
     class Meta:
         model = Movies
         fields = "__all__"

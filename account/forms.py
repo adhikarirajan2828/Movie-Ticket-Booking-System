@@ -8,13 +8,7 @@ User = get_user_model()
 
 class RegisterForm(forms.ModelForm):
 
-    # first_name = forms.CharField(max_length=50, label='First Name',  widget=forms.TextInput())
-    # last_name = forms.CharField(max_length=50, label='Last Name',  widget=forms.TextInput())
 
-    # email = forms.EmailField(max_length=100, label='Email',  widget=forms.TextInput())
-    # password = forms.CharField(max_length=150, label='Password',  widget=forms.PasswordInput(render_value=True))
-    # confirm_password = forms.CharField(max_length=150, label='Confirm Password',  widget=forms.PasswordInput(render_value=True))
-    
     class Meta:
         model = MyUser
         fields=["first_name","last_name","email","password","confirm_password"]
@@ -26,18 +20,7 @@ class RegisterForm(forms.ModelForm):
             "confirm_password":forms.PasswordInput(attrs={'class':'form-control'},render_value=True)
         }
         
-    # def save(self, commit=True, instance=None):
-    #     if instance is not None:
-    #         self.instance = instance
-    #     return super().save(commit)
-    
-  
-    
-    # def __init__(self, *args, **kwargs):
-    #     super(RegisterForm, self).__init__(*args, **kwargs)
-    #     for visible in self.visible_fields():
-    #         visible.field.widget.attrs['class'] = 'form-control'
-            
+
     def save(self, commit=True):
         
         user = User.objects.create_user(

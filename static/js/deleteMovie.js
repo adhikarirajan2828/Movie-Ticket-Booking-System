@@ -23,23 +23,3 @@ window.addEventListener('load', (e) => {
     })
 })
 
-// const deletes = document.querySelector('.delete');
-// deleteMovie.addEventListener('click',(e) => {
-//     console.log(e)
-// })
-// deleteMovie.addEventListener('click', (e) => {
-//     console.log('delete')
-//     const id = deleteMovie.getAttribute('data-movie-id')
-//     console.log(id)
-//     e.preventDefault();
-
-//     fetch(`http://localhost:8000/deleteMovie${id}`,{
-//         method: 'POST',
-//         headers: {
-//             'Accept': 'application/json',
-//         'Content-Type': 'application/x-www-form-urlencoded'
-//         }
-//     }).then(res => {console.log("deleted")
-//     location.reload();
-// });
-// })

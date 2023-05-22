@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
             name='movieShowtime',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('showtime_name', models.CharField(max_length=50)),
+                ('showtime', models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
