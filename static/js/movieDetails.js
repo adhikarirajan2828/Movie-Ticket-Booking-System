@@ -13,36 +13,26 @@ movieDate.addEventListener("change", () => {
   if (currentDate > date) {
     movieDate.value = "";
     alert("invalid movie date");
+  }else{
+
   }
 });
 
 const BookTicketfunc = async () => {
-  console.log("inside box ticket");
-  console.log(date);
-  const { data } = await axios.post(
-    "http://localhost:8000/movies/ticket/date",
-    {
-      date,
-    }
-  );
-  console.log('------------here is data')
-  console.log(data)
-  if(movieDate.value === ""){
+  console.log(movieDate.value)
+  if(!movieDate.value){
     alert('please select a date');
   }else {
+    console.log(movieDate.value)
+    console.log("inside box ticket");
+    const { data } = await axios.post(
+      "http://localhost:8000/movies/ticket/date",
+      {
+        date,
+      }
+    );
+    console.log('book')
     bookTicket.href = '/movies/seatview'
-  }
 
-  console.log(data);
-  // fetch("http://127.0.0.1:8000/movies/ticket/date", {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  //   body: JSON.stringify({ id: 78912 }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((response) => console.log(JSON.stringify(response)));
+  }
 };

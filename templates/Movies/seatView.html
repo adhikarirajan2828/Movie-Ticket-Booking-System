@@ -1,7 +1,7 @@
 {% extends 'templates/base.html' %} {% block content %} {% load static %}
 {% csrf_token %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js" integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script defer src={% static 'js/scripts.js' %}></script>
+<script defer src={% static 'js/Script.js' %}></script>
 <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 
 <div class="seatView">
@@ -81,7 +81,7 @@
     </li>
     <li>
       <div class="seat"></div>
-      <small>Available</small>
+      <small>Reserved</small>
     </li>
     <li>
       <div style="background-color: white;height:18px;width:18px;margin:3px;border-radius: 5px;"></div>
@@ -92,13 +92,13 @@
   <p class="text" style="color: white">
     <div style="color:white">Total number of seats selected &nbsp;<span id="count"> </span> </div>
     <br />
-    <div style="color:white">here is the price: &nbsp; Rs.</span> <span id="amount"></div>
+    <div data-price={{movie.movie_price}} id="price" style="color:white">here is the price: &nbsp; Rs.</span> <span id="amount"></div>
         <div style="color:white">your points: {{ user.reward_point }}</div>
   </p>
   <!-- <p>Price per ticket :{{ movie.movie_price }} </p> -->
   <a id="buyTicket" ><button onclick='postSeat()' class="btn btn-warning" data-movie-price={{movie.movie_price}} id="bookTicket"> Buy Ticket</button></a>
-  {% if user.reward_point > 99 %}
-  <hr/> <button onclick='loyaltyTicket()''>Buy ticket with reward point</button>>
+  {% if user.reward_point >= 10 %}
+  <hr/> <button onclick='loyaltyTicket()' class="btn btn-info" >Buy ticket with reward point</button>>
   {% endif %}
 </div>
 

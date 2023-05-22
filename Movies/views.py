@@ -109,7 +109,7 @@ def buyWithPoint(request):
                 movie_date=request.session["movie_date"],
             )
             print("ticket created successfully")
-            user.reward_point -= 100
+            user.reward_point -= 10
             user.save()
             return redirect("mytickets")
         except Exception as e:

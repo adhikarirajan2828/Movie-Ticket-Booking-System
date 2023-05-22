@@ -1,68 +1,107 @@
-const container = document.querySelector(".container");
-const count = document.getElementById("count");
-const amount = document.getElementById("amount");
-const select = document.getElementById("movie");
-const seats = document.querySelectorAll(".seat:not(.reserved)");
+window.onload = async () => {
+  const { data } = await axios.get(
+    "http://localhost:8000/movies/reservedseats"
+  );
+  ticketPrice = price.getAttribute('data-price');
+  bookedSeatNum = data.reserved_seats.split(" ");
+  ReservedSeat.forEach((e, index) => {
+    let seatReserved = e.getAttribute("data-value");
 
-getFromLocalStorage();
-calculateTotal();
-console.log(seats);
-container.addEventListener("click", function(e){
-    console.log('cleljdfl')
-    if(e.target.classList.contains('seat') && !e.target.classList.contains('reserved') ) {
-        e.target.classList.toggle("selected");
-        calculateTotal();        
+    if (bookedSeatNum.includes(seatReserved)) {
+      e.classList.remove("selected");
+      e.classList.add("reserved");
     }
+  });
+
+};
+const price = document.getElementById("price");
+const ReservedSeat = document.querySelectorAll(".seat");
+const seats = document.querySelectorAll(".seat:not(.reserved)");
+const bookTicket = document.getElementById("bookTicket");
+const buyTicket = document.getElementById("buyTicket");
+
+let bookedSeatNum = [1, 2, 3];
+let bookedSeat = [];
+
+let ticketPrice;
+let movieName;
+let seatSelectedNumber = [];
+let totalPrice;
+let totalSeatCount;
+let seatSelected;
+let seatNumber;
+
+seats.forEach((e) => {
+  e.addEventListener("click", (event) => {
+    if (!e.classList.contains("reserved")) {
+      e.classList.toggle("selected");
+      seatNumber = e.getAttribute("data-value");
+
+      seatSelectedNumber.push(Number(seatNumber));
+      seatSelected = document.querySelectorAll(".selected");
+      totalSeatCount = seatSelected.length;
+      totalPrice = ticketPrice * totalSeatCount;
+      document.getElementById("count").innerHTML = totalSeatCount;
+      document.getElementById("amount").innerHTML = totalPrice;
+    }
+  });
 });
 
-select.addEventListener("change", function (e) { 
-    calculateTotal();
- });
+const postSeat = async () => {
+  let config = {
+    publicKey: "test_public_key_c918cf965e0e41ccb38bde814a012ad0",
+    productIdentity: "1234567890",
+    productName: "Dragon",
+    productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+    paymentPreference: [
+      "KHALTI",
+      "EBANKING",
+      "MOBILE_BANKING",
+      "CONNECT_IPS",
+      "SCT",
+    ],
+    eventHandler: {
+      async onSuccess(payload) {
+        const response = await axios.post(
+          "http://localhost:8000/movies/ticket",
+          {
+            totalPrice,
+            ticketPrice,
+            seatSelectedNumber,
+          }
+        );
+        if (response.status === 200) {
+          window.location.href = 'http://localhost:8000/mytickets';
+        }
+      },
+      onError(error) {
+        console.log(error);
+      },
+      onClose() {
+        console.log("widget is closing");
+      },
+    },
+  };
 
- function calculateTotal() {
-     const selectedSeats = container.querySelectorAll('.seat.selected');
-    
-     const selectedSeatsArr = [];
-     const seatsArr=[];
+  var checkout = new KhaltiCheckout(config);
+  console.log("checkout");
+  console.log(checkout);
+  checkout.show({ amount: totalPrice*100 });
 
-     selectedSeats.forEach(function(seat) {
-        selectedSeatsArr.push(seat);
-     });
 
-     seats.forEach(function(seat) {
-        seatsArr.push(seat);
-     });
 
-     let selectedSeatIndexs = selectedSeatsArr.map(function(seat) {
-        return seatsArr.indexOf(seat);
-     });
+  console.log(response);
+};
 
-    let selectedSeatCount = selectedSeats.length;
-    count.innerText = selectedSeatCount;
-    amount.innerText = selectedSeatCount*select.value;
+const loyaltyTicket = async () => {
+  const response = await axios.post("http://localhost:8000/movies/buywithpoint", {
+    totalPrice,
+    ticketPrice,
+    seatSelectedNumber,
+  });
+  console.log(response);
 
-    saveToLocalStorage(selectedSeatIndexs); 
- }
-
- function getFromLocalStorage() { 
-    const selectedSeats =JSON.parse(localStorage.getItem('selectedSeats'));
-
-    if (selectedSeats != null && selectedSeats.length > 0) {
-        seats.forEach(function(seat, index) {
-            if (selectedSeats.indexOf(index) > -1) {
-                seat.classList.add("selected");
-            }
-        });
-    }
-
-    const selectedMovieIndex = localStorage.getItem('selectedMovieIndex');
-
-    if (selectedMovieIndex != null) {
-        select.selectedIndex = selectedMovieIndex;
-    }
+  if (response.status === 200) {
+    window.location.href = 'http://localhost:8000/mytickets';
   }
-
- function saveToLocalStorage(indexs) {
-     localStorage.setItem('selectedSeats', JSON.stringify(indexs));
-     localStorage.setItem('selectedMovieIndex', select.selectedIndex);
- }
+}

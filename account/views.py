@@ -368,6 +368,7 @@ def register(request):
     return render(request, "accounts/register.html", {"form": form})
 
 
+@csrf_exempt
 def signin(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -389,7 +390,8 @@ def signin(request):
                     "user": user,
                     "movieData": movieData,
                 }
-                return render(request, "accounts/index.html", data)
+                return redirect('/')
+                # return render(request, "accounts/index.html", data)
             else:
                 print("Bad Credentials")
         else:
